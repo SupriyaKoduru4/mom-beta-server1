@@ -22,6 +22,7 @@ const {
     getTotalOrders,
     getSummary,
     setPickup,
+    getDeliveryBoyOrderHistory
 
 
 } = require('../controllers/order.controllers');
@@ -45,6 +46,7 @@ router.get('/getorderdeliveryboy/:_id',userAuth ,orderByDeliveryBoyId );
 router.delete('/delete-orders-by-user/:userId', userAuth, deleteOrdersByUserId);
 router.post('/orders/:orderId/accept',deliveryBoyAuth,acceptOrder);
 router.put("/setPickup/:orderId", deliveryBoyAuth, setPickup)
+router.get("/getOrderHistory" , deliveryBoyAuth, getDeliveryBoyOrderHistory);
 
 router.post('/delivered/:orderId',delivered);
 

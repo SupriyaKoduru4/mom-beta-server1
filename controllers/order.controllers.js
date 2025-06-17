@@ -144,6 +144,36 @@ exports.orderByDeliveryBoyId = async (req, res) => {
   }
 };
 
+exports.getDeliveryBoyOrderHistory = async (req, res) => {
+  try {
+    const deliveryBoyId = req.deliveryBoyId;
+
+    if (!mongoose.Types.ObjectId.isValid(deliveryBoyId)) {
+      return res.status(400).json({ success: false, message: 'Invalid Delivery Boy ID' });
+    }
+
+    const orders = await Order.find({
+      deliveryboy_id: deliveryBoyId,
+      status: 'delivered'
+    })
+      .populate('user_id')
+      .populate('address_id')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: orders.length,
+      orders
+    });
+
+  } catch (err) {
+    console.error("Error fetching delivery boy order history:", err);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+};
+
+
+
 
 
 exports.getOrderByUserId = async (req, res) => {
